@@ -30,10 +30,11 @@
         },
         inputGoods: '',
         paginatorOptions: {
-          count: 10,
+          count: '',
           next: '',
           prev: '',
-          page_size: 4
+          page_size: 4,
+          updateFlag: true
         },
         page: 1
       }
@@ -43,6 +44,8 @@
     },
     methods: {
       categoryChanged (category) {
+        this.inputGoods = ''
+        this.paginatorOptions.currentPage = 1
         let data = new URLSearchParams()
         if (category.id) {
           data.append('category', category.id)
@@ -53,11 +56,10 @@
         promise.then((response) => {
           this.currentCategory = category
           this.goodsList = response.data.results
-          console.log(response.data.results, 'data results')
           this.paginatorOptions.count = response.data.count
           this.paginatorOptions.next = response.data.next
           this.paginatorOptions.prev = response.data.previous
-          console.log(this.paginatorOptions, 'pagOptions')
+          this.paginatorOptions.updateFlag = true
         })
       },
       newPage (page) {
@@ -65,17 +67,16 @@
           let promise = getPage(this.paginatorOptions[page.page])
           promise.then((response) => {
             this.goodsList = response.data.results
-            console.log(response.data, 'data results')
             this.paginatorOptions.count = response.data.count
             this.paginatorOptions.next = response.data.next
             this.paginatorOptions.prev = response.data.previous
-            console.log(this.paginatorOptions, 'pagOptions')
           })
         }
       }
     },
     watch: {
       inputGoods () {
+        this.paginatorOptions.currentPage = 1
         let data = new URLSearchParams()
         data.append('input', this.inputGoods)
         if (this.currentCategory.id) {
@@ -86,7 +87,10 @@
         let promise = getGoodsByField(data)
         promise.then((response) => {
           this.goodsList = response.data.results
-          console.log(response.data.results, 'results')
+          this.paginatorOptions.count = response.data.count
+          this.paginatorOptions.next = response.data.next
+          this.paginatorOptions.prev = response.data.previous
+          this.paginatorOptions.updateFlag = true
         })
       }
     }

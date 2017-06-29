@@ -1,5 +1,5 @@
 <template>
-  <div v-if="paginatorOptions.count" class="paginator">
+  <div v-if="pageCount" class="paginator">
     <div class="rectangle prev-page" @click="pageClick('prev')"></div>
     <div class="rectangle" :class="{active: page==pageCurrentNum}" v-for="page in pageArray" @click="pageClick(page)">{{page}}</div>
     <div class="rectangle next-page" @click="pageClick('next')"></div>
@@ -11,16 +11,12 @@
     props: ['paginatorOptions'],
     data () {
       return {
-        pageCurrentNum: 1,
-        pageCount: 10
+        pageCurrentNum: 1
       }
     },
     methods: {
       pageClick (page) {
-        console.log(page, 'page', this.pageCurrentNum, 'curNum')
-        console.log('arararaar')
         if (page === 'next' | page === (this.pageCurrentNum + 1)) {
-          console.log(page)
           if (this.pageCurrentNum < this.pageCount) {
             this.pageCurrentNum++
             this.$emit('page', {
@@ -28,7 +24,6 @@
             })
           }
         } else if (page === 'prev' | page === (this.pageCurrentNum - 1)) {
-          console.log(page)
           if (this.pageCurrentNum > 1) {
             this.pageCurrentNum--
             this.$emit('page', {
@@ -39,26 +34,27 @@
       }
     },
     computed: {
-      pageArray () {
-        this.pageCount = Math.ceil(this.paginatorOptions.count / this.paginatorOptions.page_size)
-        if (this.pageCount) {
-          if (this.pageCurrentNum < 2) {
-            let array = []
-            for (let i = 1; i <= 2; i++) {
-              array.push(i)
-            }
-            this.pages = array
-            return this.pages
-          }
-          let array = []
-          let lastPage = this.pageCurrentNum + 1 > this.pageCount ? this.pageCount : this.pageCurrentNum + 1
-          console.log(lastPage, 'lastpage')
-          for (let i = this.pageCurrentNum - 1; i <= lastPage; i++) {
-            array.push(i)
-          }
-          this.pages = array
-          return this.pages
+      pageCount () {
+        if (this.paginatorOptions.updateFlag === true) {
+          this.pageCurrentNum = 1
+          this.paginatorOptions.updateFlag = false
         }
+        return Math.ceil(this.paginatorOptions.count / this.paginatorOptions.page_size)
+      },
+      updatePaginator () {
+        this.paginatorOptions.updateFlag = true
+        this.pageCurrentNum = 1
+        this.paginatorOptions.updateFlag = false
+        return false
+      },
+      pageArray () {
+        this.pages = []
+        let firstPage = this.pageCurrentNum - 1 > 1 ? this.pageCurrentNum - 1 : 1
+        let lastPage = this.pageCurrentNum + 1 > this.pageCount ? this.pageCount : this.pageCurrentNum + 1
+        for (let i = firstPage; i <= lastPage; i++) {
+          this.pages.push(i)
+        }
+        return this.pages
       }
     }
   }
