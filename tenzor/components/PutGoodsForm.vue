@@ -84,7 +84,7 @@
           data.append('id', this.goods_id)
           var promise = putGoods(data)
           promise.then((response) => {
-            this.$router.go(-1)
+            this.$router.push('/')
           })
         }
       },

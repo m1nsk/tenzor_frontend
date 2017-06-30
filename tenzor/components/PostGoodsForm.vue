@@ -67,7 +67,7 @@
           }
           var promise = postGoods(data)
           promise.then((response) => {
-            this.$router.go(-1)
+            this.$router.push('/')
           }).catch((error) => {
             console.log(error)
           })

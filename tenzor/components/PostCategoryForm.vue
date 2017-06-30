@@ -26,7 +26,7 @@
           data.append('name', this.inputCategory)
           let promise = postCategory(data)
           promise.then((response) => {
-            this.$router.go(-1)
+            this.$router.push('/')
           }).catch((error) => {
             this.message = 'Что-то пошло не так'
             console.log(error)
