@@ -19,7 +19,7 @@
   import GoodsList from '~components/GoodsList.vue'
   import Pagination from '~components/Pagination.vue'
   import PageSize from '~components/PageSize.vue'
-  import { getGoodsListByCategory, getGoodsByField, getPage } from '~/api/index.js'
+  import { getGoodsListByCategory, getGoodsByField } from '~/api/index.js'
   export default {
     components: {
       CategoryList,
@@ -50,16 +50,16 @@
     methods: {
       pageSizeChanged (size) {
         this.paginatorOptions.page_size = size.size
-        this.categoryChanged(this.currentCategory)
+        this.categoryChanged()
       },
-      categoryChanged (category) {
+      categoryChanged (category = this.currentCategory, page = 1) {
         this.inputGoods = ''
         this.paginatorOptions.currentPage = 1
         let data = new URLSearchParams()
         if (category.id) {
           data.append('category', category.id)
         }
-        data.append('page', '1')
+        data.append('page', page)
         data.append('page_size', this.paginatorOptions.page_size)
         let promise = getGoodsListByCategory(data)
         promise.then((response) => {
@@ -68,19 +68,11 @@
           this.paginatorOptions.count = response.data.count
           this.paginatorOptions.next = response.data.next
           this.paginatorOptions.prev = response.data.previous
-          this.paginatorOptions.updateFlag = true
+          this.paginatorOptions.updateFlag = (page === 1)
         })
       },
       newPage (page) {
-        if (page.page in this.paginatorOptions) {
-          let promise = getPage(this.paginatorOptions[page.page])
-          promise.then((response) => {
-            this.goodsList = response.data.results
-            this.paginatorOptions.count = response.data.count
-            this.paginatorOptions.next = response.data.next
-            this.paginatorOptions.prev = response.data.previous
-          })
-        }
+        this.categoryChanged(undefined, page.page)
       }
     },
     watch: {

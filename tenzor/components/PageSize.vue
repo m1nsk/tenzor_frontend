@@ -1,9 +1,7 @@
 <template>
   <ul class="pagination">
     <li>
-      <a href="#">
-        Page Size
-      </a>
+      <a href="#">Page Size</a>
     </li>
     <li v-for="size in sizeArray" @click="sizeClicked(size)">
       <a href="#">{{size}}</a>

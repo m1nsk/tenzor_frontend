@@ -32,14 +32,14 @@
           if (this.pageCurrentNum < this.pageCount) {
             this.pageCurrentNum++
             this.$emit('page', {
-              page: 'next'
+              page: this.pageCurrentNum
             })
           }
         } else if (page === 'prev' | page === (this.pageCurrentNum - 1)) {
           if (this.pageCurrentNum > 1) {
             this.pageCurrentNum--
             this.$emit('page', {
-              page: 'prev'
+              page: this.pageCurrentNum
             })
           }
         }
