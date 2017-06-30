@@ -68,6 +68,10 @@
             break
           }
         }
+      }).catch((error) => {
+        if (error.response.status === 404) {
+          this.$router.push('my-new-404-page')
+        }
       })
     },
     methods: {
