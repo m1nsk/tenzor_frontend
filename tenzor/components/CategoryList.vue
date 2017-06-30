@@ -1,7 +1,13 @@
 <template>
-  <div class="category-list">
-    <category-element :categoryElement="categoryAll" @click.native="onElementClicked(categoryAll, $event)"></category-element>
-    <category-element v-for="element in categoryList" :categoryElement="element" :key="element.id" @click.native="onElementClicked(element, $event)"></category-element>
+  <div class=".category-list">
+    <div class="col-sm-2">
+      <nav class="nav-sidebar">
+        <ul class="nav tabs">
+          <category-element :categoryElement="categoryAll" @click.native="onElementClicked(categoryAll, $event)"></category-element>
+          <category-element v-for="element in categoryList" :categoryElement="element" :key="element.id" @click.native="onElementClicked(element, $event)"></category-element>
+        </ul>
+      </nav>
+    </div>
   </div>
 </template>
 
@@ -43,6 +49,5 @@
     height: 80%;
     display: inline-block;
     float: left;
-    border: #ce94ff 1px solid;
   }
 </style>

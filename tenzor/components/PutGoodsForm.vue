@@ -1,27 +1,27 @@
 <template>
   <div>
     <div class="submitGoodsForm">
-      <h1>Goods</h1>
+      <h1 class="text-center font-weight-bold">Goods</h1>
       <form ref="myform" @submit.prevent="submitGoods" id="mainForm" >
         <label for="category">Категория</label>
-        <input list="categories" id="category" v-model="category_name">
+        <input class="form-control" list="categories" id="category" v-model="category_name">
         <datalist id="categories"">
         <option v-for="category in categoryList" :value="category.name"></option>
         </datalist>
         <p class="valid-message">{{formModelMessage.category}}</p>
         <label for="name">Наименование</label>
-        <p><input type="text" id="name" placeholder="Введите наименование товара..." name="name" ref="book" v-model="formModel.name"></p>
+        <input type="text" class="form-control" id="name" placeholder="Введите наименование товара..." name="name" ref="book" v-model="formModel.name">
         <p class="valid-message">{{formModelMessage.name}}</p>
         <label for="qty">Количество</label>
-        <p><input type="text" id="qty" placeholder="Введите количество товара" name="qty" ref="qty" v-model="formModel.qty"></p>
+        <input type="text" class="form-control" id="qty" placeholder="Введите количество товара" name="qty" ref="qty" v-model="formModel.qty">
         <p class="valid-message">{{formModelMessage.qty}}</p>
         <label for="price">Цена</label>
-        <p><input type="text" id="price" placeholder="Введите цену товара" name="price" ref="price" v-model="formModel.price"></p>
+        <input type="text" class="form-control" id="price" placeholder="Введите цену товара" name="price" ref="price" v-model="formModel.price">
         <p class="valid-message">{{formModelMessage.price}}</p>
         <label for="date">Дата производства</label>
-        <p><input type="date" id="date" name="date" ref="date" v-model="formModel.production_date"></p>
+        <input type="date" class="form-control" id="date" name="date" ref="date" v-model="formModel.production_date">
         <p class="valid-message">{{formModelMessage.date}}</p>
-        <input type="submit" name="btnSubmit" >
+        <input type="submit" name="btnSubmit" class="btn btn-primary active vcenter btn-submit">
       </form>
     </div>
   </div>
@@ -72,9 +72,7 @@
     },
     methods: {
       submitGoods () {
-        console.log('submit')
         if (this.validateForm()) {
-          console.log(this.formModel, 'formModel')
           let data = new URLSearchParams()
           for (var key in this.formModel) {
             data.append(key, this.formModel[key])
@@ -97,7 +95,6 @@
       validateCategory () {
         for (let category in this.categoryList) {
           if (this.categoryList[category].name === this.category_name) {
-            console.log('category')
             this.formModelMessage.category = ''
             this.formModel.category = this.categoryList[category].id
             return true
@@ -108,7 +105,6 @@
       },
       validateName () {
         if (this.formModel.name) {
-          console.log('name')
           this.formModelMessage.name = ''
           return true
         }
@@ -117,7 +113,6 @@
       },
       validatePrice () {
         if (!isNaN(parseFloat(this.formModel.price)) && isFinite(this.formModel.price)) {
-          console.log('price')
           this.formModelMessage.price = ''
           return true
         }
@@ -125,8 +120,7 @@
         return false
       },
       validateQty () {
-        if (this.formModel.qty === this.formModel.qty ^ 0) {
-          console.log('qty')
+        if (this.formModel.qty % 1 === 0) {
           this.formModelMessage.qty = ''
           return true
         } else {
@@ -136,7 +130,6 @@
       },
       validateDate () {
         if (this.formModel.production_date) {
-          console.log('date')
           this.formModelMessage.production_date = ''
           return true
         }
@@ -148,27 +141,31 @@
 </script>
 
 <style scoped>
-  input
-  {
-    width: 100%;
-    height: 25px;
-    background-color: white;
-    background-position: 5px 5px;
-    background-size: 15px 15px;
-    background-repeat: no-repeat;
-    padding-left: 25px;
-  }
-
   .submitGoodsForm
   {
-    width: 400px;
-    display: inline-block;
-    vertical-align: top;
+    width: 450px;
+    margin: 25px auto;
+    padding: 25px;
+    border-radius: 10px;
+    background-color: cornflowerblue;
   }
 
   .valid-message
   {
     color: #af2b29;
     font-size: 10px;
+  }
+
+  .vcenter
+  {
+    width: 100%;
+    display: table-cell;
+    vertical-align: middle;
+    height: 100%;
+  }
+
+  .btn-submit
+  {
+    margin-top: 15px;
   }
 </style>

@@ -1,3 +1,5 @@
+const webpack = require('webpack')
+
 module.exports = {
   /*
   ** Headers of the page
@@ -24,6 +26,15 @@ module.exports = {
     /*
     ** Run ESLINT on save
     */
+    vendor: ['axios', 'bootstrap', 'jquery'],
+    plugins: [
+      // set shortcuts as global for bootstrap
+      new webpack.ProvidePlugin({
+        $: 'jquery',
+        jQuery: 'jquery',
+        'window.jQuery': 'jquery'
+      })
+    ],
     extend (config, ctx) {
       if (ctx.isClient) {
         config.module.rules.push({
@@ -34,5 +45,9 @@ module.exports = {
         })
       }
     }
-  }
+  },
+  // include bootstrap css
+  css: ['bootstrap/dist/css/bootstrap.css'],
+  // include bootstrap js on startup
+  plugins: ['~plugins/bootstrap.js']
 }

@@ -1,7 +1,5 @@
 <template>
-  <div class="category">
-    <p>{{categoryElement.name}}</p>
-  </div>
+  <li class="element"><a href="#tab2" data-toggle="tab">{{categoryElement.name}}</a></li>
 </template>
 
 <script>
@@ -11,13 +9,8 @@
 </script>
 
 <style>
-  .category
+  .element
   {
-    background: #ff97bd;
-  }
-
-  .category:hover
-  {
-    background: #ff8780;
+    width: 100%;
   }
 </style>

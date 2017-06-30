@@ -7,6 +7,10 @@
 <script>
   import PutGoodsForm from '~components/PutGoodsForm.vue'
   export default {
+    validate ({ params }) {
+      // Must be a number
+      return /^\d+$/.test(params.id)
+    },
     layout: 'default',
     components: {
       PutGoodsForm

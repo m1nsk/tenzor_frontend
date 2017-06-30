@@ -1,10 +1,10 @@
 <template>
-  <div is="tr" class="goodsElement">
+  <tr class="goodsElement">
     <th>{{goodsElement.name}}</th>
     <th>{{goodsElement.price}}</th>
     <th>{{goodsElement.qty}}</th>
     <th>{{goodsElement.production_date}}</th>
-  </div>
+  </tr>
 </template>
 
 <script>
