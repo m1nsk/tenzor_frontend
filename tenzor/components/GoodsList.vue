@@ -22,7 +22,7 @@
     components: {
       GoodsElement
     },
-    props: ['goodsList', 'currentCategory'],
+    props: ['goodsList', 'currentCategory', 'pageSize'],
     methods: {
       onElementClicked (element) {
         console.log(this.$route.path)
@@ -39,7 +39,6 @@
 
   .goods-list
   {
-    height: 180px;
     width: 100%;
   }
 

@@ -8,7 +8,8 @@
         <input type="text" placeholder="Введите название продукта..." v-model="inputGoods" class="form-control">
       </div>
       <goods-list :goodsList="goodsList" :currentCategory="currentCategory"></goods-list>
-      <pagination :paginatorOptions="paginatorOptions" @page="newPage"></pagination>
+      <pagination :paginatorOptions="paginatorOptions" @page="newPage" class="pull-left"></pagination>
+      <page-size @size="pageSizeChanged" class="pull-right"></page-size>
     </div>
   </div>
 </template>
@@ -17,12 +18,14 @@
   import CategoryList from '~components/CategoryList.vue'
   import GoodsList from '~components/GoodsList.vue'
   import Pagination from '~components/Pagination.vue'
+  import PageSize from '~components/PageSize.vue'
   import { getGoodsListByCategory, getGoodsByField, getPage } from '~/api/index.js'
   export default {
     components: {
       CategoryList,
       GoodsList,
-      Pagination
+      Pagination,
+      PageSize
     },
     data () {
       return {
@@ -45,6 +48,10 @@
       this.categoryChanged(this.currentCategory)
     },
     methods: {
+      pageSizeChanged (size) {
+        this.paginatorOptions.page_size = size.size
+        this.categoryChanged(this.currentCategory)
+      },
       categoryChanged (category) {
         this.inputGoods = ''
         this.paginatorOptions.currentPage = 1
